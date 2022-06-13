@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+// make sure to use https
 const API_ENDPOINT = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API_KEY}`;
-const AppContext = React.createContext();
 
 const useFecth = (urlParams) => {
   const [loading, setLoading] = useState(true);
@@ -15,15 +15,13 @@ const useFecth = (urlParams) => {
       const data = await response.json();
 
       if (data.Response === "True") {
-        setData(data.Search);
+        setData(data.Search || data);
         setError({ show: false, message: "" });
       } else {
         setError({ show: true, message: data.Error });
       }
 
       setLoading(false);
-
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
